@@ -253,7 +253,7 @@ case class SubmarineDataMaskingExtension(spark: SparkSession) extends Rule[Logic
         case _ => null
       }.filter(_ != null).toMap
 
-      val newPlan = plan transformUp {
+      plan transformUp {
         case p: HiveTableRelation =>
           if (plansWithTables.contains(p)) {
             plansWithTables(p) transformUp {
@@ -303,7 +303,6 @@ case class SubmarineDataMaskingExtension(spark: SparkSession) extends Rule[Logic
             p
           }
       }
-      newPlan
   }
 
   override def apply(plan: LogicalPlan): LogicalPlan = plan match {
